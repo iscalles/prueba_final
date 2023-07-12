@@ -1,0 +1,93 @@
+#1 comprar entradas 2 mostrar ubicaciones disponibles 3 ver listado de asistentes 4 mostrar ganancias totales 5 salir
+lista_entradas=[i for i in range (1,101)]
+asientos_comprados=[]
+cantidad=0
+total_comprado=0      
+def compra_entradas():
+  while True:
+    try:
+      cant=int(input("Ingrese la cantidad de entradas a comprar: "))
+      if cant < 1 or cant > 3:
+        print ("La cantidad de entradas no es válida")
+      else:
+        return(cant)
+    except ValueError:
+      print("Error, caracter no válido")
+def mostrar_ubicacion (b):
+  while b!=0:
+    try:
+      print(lista_entradas)
+      asiento=int(input("Seleccione el asiento que desee: "))
+      print("""
+      **PLATINUM (Asientos del 1 al 20): $120.000
+      **GOLD (Asientos del 21 al 50):    $80.000
+      **SILVER (Asientos del 51 al 100): $50.000
+            """)
+      if asiento in lista_entradas:
+        b-=1
+        rut_persona=int(input("Ingrese el RUT de la persona (RUT sin guiones ni puntos): "))
+        lista_ocupadaX=[asiento,rut_persona]
+        asientos_comprados.append(lista_ocupadaX)
+        lista_entradas.pop(asiento-1)
+        lista_entradas.insert(asiento-1,"X")
+      elif asiento not in lista_entradas:
+        print("Asiento no disponible, intente con otro.")  
+    except ValueError:
+      print("Error, carácter no válido")
+  return (asientos_comprados, lista_entradas)
+def ganancia_total():
+  platinum=0
+  gold=0
+  silver=0
+  for i in asientos_comprados:
+    b=i[0]
+    if b in range (1,21):
+      platinum+=120000
+    elif b in range (21,51):
+      gold+=80000
+    elif b in range (51,101):    
+      silver+=50000
+
+  print(f"""
+  -------------------------------------------
+  TIPO ENTRADA    |    CANTIDAD    | TOTAL
+  -------------------------------------------  
+  PLATINUM $120.000                 {platinum}
+  GOLD     $80.000                  {gold}
+  SILVER   $50.000                  {silver}  
+  TOTAL                             {platinum+gold+silver} 
+  --------------------------------------------     
+        """) 
+while True:
+  try:
+    print("""
+    ------------------------------------
+    ***** PRODUCTORA CREATIVOS.CL *****
+
+    ---VENTA DE ENTRADAS MICHAEL JAM---
+                **MENU** 
+    1. Comprar entradas.
+    2. Mostrar ubicaciones disponibles
+    3. Ver listado de asistentes
+    4. Mostrar ganancias totales
+    5. Salir
+    ------------------------------------             
+          """)
+    opcion=int(input("Seleccione una opción: "))
+    if opcion == 1:
+      mostrar_ubicacion(compra_entradas())
+    elif opcion == 2:
+      print(lista_entradas)  
+    elif opcion == 3:
+      for r in range (1,101):
+        for i in asientos_comprados:
+          if i [0] == r:
+            print(i[1])
+    elif opcion == 4: 
+      ganancia_total()
+    elif opcion == 5:
+      print ("Usted ha decidido salir.\nEste programa ha sido desarrollado por Isabel Calles, el día 12/07/2023")
+      break            
+  except ValueError:
+    print("Error, el caracter no es válido") 
+print ("Adios...") 
